@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="STRANGER — investigate Earth-system trends using NASA POWER observations and transparent statistical analysis.">
+  <title>STRANGER — Earth System Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">S</span><span>STRANGER<small>EARTH SYSTEM INTELLIGENCE</small></span></a><div class="top-right"><span class="live-dot"></span> NASA DATA WORKSPACE <span class="year-tag">2026</span></div></header>
+  <main>
+    <section class="hero"><div class="eyebrow"><span>FIELD NOTE 001</span><span class="line"></span><span>EARTH OBSERVATION / TREND ANALYSIS</span></div><h1>THE EARTH IS<br><em>ALWAYS</em> CHANGING.</h1><p class="hero-copy">Look closer. Follow the data. Find out whether the signal is real.</p><div class="hero-meta"><span>01 / SELECT A SIGNAL</span><span>02 / TEST THE TREND</span><span>03 / INTERPRET THE EVIDENCE</span></div></section>
+    <section class="workspace">
+      <aside class="controls panel"><div class="panel-head"><span>INVESTIGATION PARAMETERS</span><span class="step">01—03</span></div>
+        <label for="place">LOCATION PRESET</label><select id="place"><option value="9.9312,76.2673">Kochi, Kerala · India</option><option value="8.5241,76.9366">Thiruvananthapuram, Kerala · India</option><option value="10.8505,76.2711">Central Kerala · India</option><option value="27.1767,78.0081">Agra, India</option><option value="19.0760,72.8777">Mumbai, India</option><option value="40.7128,-74.0060">New York, USA</option><option value="35.6762,139.6503">Tokyo, Japan</option></select>
+        <div class="coord-grid"><div><label for="lat">LATITUDE</label><input id="lat" type="number" step="any" value="9.9312"></div><div><label for="lon">LONGITUDE</label><input id="lon" type="number" step="any" value="76.2673"></div></div>
+        <label for="variable">EARTH SYSTEM VARIABLE</label><select id="variable"><option value="temperature">Air temperature · T2M (°C)</option><option value="precipitation">Precipitation · PRECTOTCORR (mm/day)</option><option value="humidity">Relative humidity · RH2M (%)</option></select>
+        <div class="coord-grid"><div><label for="start">START YEAR</label><input id="start" type="number" min="1981" max="2024" value="2001"></div><div><label for="end">END YEAR</label><input id="end" type="number" min="1991" max="2025" value="2025"></div></div>
+        <button id="analyze" class="primary">RUN INVESTIGATION <span>↗</span></button><p class="micro">Monthly observations · annual aggregation · non-parametric trend test</p>
+        <div class="source-note"><span class="source-icon">✳</span><div><b>DATA PROVENANCE</b><p>NASA POWER Monthly API. Meteorological parameters are model/reanalysis-derived; this is not a direct satellite pixel measurement.</p><a href="https://power.larc.nasa.gov/docs/services/api/temporal/monthly/" target="_blank" rel="noreferrer">API DOCUMENTATION ↗</a></div></div>
+      </aside>
+      <section class="results">
+        <div class="results-head"><div><div class="eyebrow small">LIVE INVESTIGATION</div><h2 id="result-title">Kochi, Kerala</h2><p id="result-sub">2 m air temperature · 2001—2025</p></div><div class="status" id="status"><span></span> READY</div></div>
+        <div id="message" class="message">Choose a variable and run your first investigation. STRANGER will retrieve observations directly from NASA POWER.</div>
+        <div class="metric-grid">
+          <article class="metric panel"><span>THEIL–SEN SLOPE</span><strong id="slope">—</strong><small id="slope-unit">per year</small></article>
+          <article class="metric panel"><span>KENDALL TAU</span><strong id="tau">—</strong><small>direction & strength</small></article>
+          <article class="metric panel"><span>P-VALUE</span><strong id="pvalue">—</strong><small>significance threshold: 0.05</small></article>
+          <article class="metric panel"><span>OBSERVATIONS</span><strong id="count">—</strong><small>annual data points</small></article>
+        </div>
+        <article class="chart-panel panel"><div class="chart-head"><div><span class="eyebrow small">TIME SERIES / ANNUAL MEAN</span><h3>Following the signal</h3></div><span class="chart-unit" id="chart-unit">°C</span></div><div class="chart-wrap"><canvas id="trendChart"></canvas></div><div class="legend"><span><i class="obs-dot"></i> Annual observation</span><span><i class="trend-line"></i> Linear fit (visual guide)</span></div></article>
+        <article class="interpret panel"><div class="interpret-title"><span class="eyebrow small">EVIDENCE BRIEF</span><span class="evidence-tag" id="evidence-tag">AWAITING DATA</span></div><h3 id="direction">No trend assessed yet.</h3><p id="interpretation">Run an investigation to see a plain-language interpretation of the statistical result.</p><div class="interpret-foot" id="caveat">Statistical results will appear here with limitations.</div></article>
+        <div class="method panel"><div><span class="eyebrow small">METHOD NOTE</span><h3>How the signal is tested</h3></div><ol><li><b>Acquire</b><span>Monthly NASA POWER values for the selected point.</span></li><li><b>Aggregate</b><span>Calculate the mean of valid monthly values for each year.</span></li><li><b>Estimate</b><span>Compute Theil–Sen median pairwise slope and Kendall rank correlation.</span></li><li><b>Interpret</b><span>Use p &lt; 0.05 as a conventional significance threshold; do not infer causation.</span></li></ol></div>
+        <div class="actions"><button id="download" class="secondary" disabled>↓ DOWNLOAD CSV</button><button id="report" class="secondary" disabled>↓ SAVE INVESTIGATION</button></div>
+      </section>
+    </section>
+  </main>
+  <footer><span>STRANGER / BUILT FOR EARTH SYSTEM CURIOSITY</span><span>DATA: NASA POWER · ANALYSIS: PYTHON / SCIPY</span></footer>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
